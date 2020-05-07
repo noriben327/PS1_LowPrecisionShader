@@ -4,6 +4,8 @@ Shader "Unlit/PS1"
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		[PowerSlider(2.0)]_Precision ("Precision", Range(0, 1000)) = 1
+		//_Mosaic ("Mosaic", Range(0,1000)) = 1
+		[PowerSlider(2.0)]_UVprecision ("UVprecision", Range(0,1000)) = 1
 	}
 	SubShader
 	{
@@ -39,6 +41,8 @@ Shader "Unlit/PS1"
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float _Precision;
+			float _Mosaic;
+			float _UVprecision;
 			
 			v2f vert (appdata v)
 			{
@@ -53,6 +57,8 @@ Shader "Unlit/PS1"
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
+				//i.uv = floor(i.uv * _Mosaic) / _Mosaic;
+				i.uv = i.uv - frac(i.uv * _UVprecision) / _UVprecision;
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
 				// apply fog
