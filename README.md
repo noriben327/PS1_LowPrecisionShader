@@ -1,0 +1,2 @@
+# PS1_LowPrecisionShader
+PS1っぽい頂点の精度が低い感じのシェーダー
